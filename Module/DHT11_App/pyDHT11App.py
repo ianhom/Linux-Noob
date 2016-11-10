@@ -1,21 +1,31 @@
 #!/usr/bin/python
+# -*- coding: UTF-8 -*-
 
 import os
+import time
+import datetime
 
-os.system("modprobe dht11 gpio=203");    # load driver of DHT11
+while True:
+    os.system("modprobe dht11 gpio=203");
+    os.system("clear");
+    print "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
+    print "This is a python app for DHT11!";
+    now = datetime.datetime.now();
+    print now.strftime('%Y-%m-%d %H:%M:%S');
+    print
 
-print "This is a python app for DHT11!";
+    f = open("/sys/devices/platform/dht11/iio:device0/in_humidityrelative_input","r");
+    humi = f.readline(2);
+    f.close()
 
-# Humidity read operation
-f = open("/sys/devices/platform/dht11/iio:device0/in_humidityrelative_input","r");
-humi = f.readline();
-print "Humidity is ", humi;
-f.close()
+    f = open("/sys/devices/platform/dht11/iio:device0/in_temp_input","r");
+    temp = f.readline(2);
+    f.close()
 
-# Temp read operation
-f = open("/sys/devices/platform/dht11/iio:device0/in_temp_input","r");
-temp = f.readline();
-print "Temp is ", temp;
-f.close()
+    print "Temp: %s Celsius\nHumi: %s%%" % (temp,humi)
 
-os.system("rmmod dht11");  # unload driver
+    print "\n**Please press Ctrl+C to exit**"
+    print "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
+
+    os.system("rmmod dht11");
+    time.sleep(1);
