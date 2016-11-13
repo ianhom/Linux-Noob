@@ -1,6 +1,11 @@
 #!/usr/bin/python
 # -*- coding: UTF-8 -*-
 
+'''
+This is a python program which realise temperatrue and humidity detecting for NanoPi NEO and M1.
+Use the default driver and the DHT11 sensor must be connected to the NanoPi
+'''
+
 import os
 import time
 import datetime
@@ -24,10 +29,13 @@ while True:
     temp = f.readline(2);
     f.close()
 
-    print "Temp: %s°C\nHumi: %s%%" % (temp,humi)
+    # Print the value of Temperatrue and Humidity.
+    print "Temp: %s°C\nHumi: %s%%" % (temp,humi);
 
     print "\n**Please press Ctrl+C to exit**"
     print "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
 
     os.system("rmmod dht11");  # Remove the driver of DHT11
-    time.sleep(1);
+    
+    # Update every 2 second
+    time.sleep(2);
